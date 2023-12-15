@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace Lab2_2
 {
@@ -79,6 +80,21 @@ namespace Lab2_2
                 foreach (Student student in students) Console.WriteLine($"ID: {student.Id}, Name: {student.Name}");
             }
             
+            using (Context listContext = new Context())
+            {
+                Console.WriteLine("Загружаю студентов и их курсы...");
+                var students = listContext.Students.ToArray();
+                var courses = listContext.Courses.ToList();
+                var mass = listContext.Teachers.Select(t => t.Courses);
+                foreach (Student student in students) {
+
+                    Console.WriteLine($"Студент: {student.Name}, курс:");
+                }
+
+                foreach (Course course in courses)
+                    foreach(Student stud in course.Students)
+                        Console.WriteLine($"Курс: {course.Title}, студент: {stud.Name}");
+            }
         }
     }
 }
